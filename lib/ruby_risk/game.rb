@@ -3,6 +3,7 @@ require 'ruby_risk/army/cavalry'
 require 'ruby_risk/army/infantry'
 require 'ruby_risk/dice_rolls/outcomes/claim_initial_territory'
 require 'ruby_risk/board'
+require 'ruby_risk/territory'
 
 module RubyRisk
   class Game
@@ -17,11 +18,10 @@ module RubyRisk
       6 => 20
     }.freeze
 
-    def initialize
-      self.players = []
+    def initialize(board: Board.new)
+      self.players            = []
       self.first_player_index = -1
-      self.territories = []
-      self.board = Board.new
+      self.board              = board
     end
 
     def add_player(attributes)
@@ -47,7 +47,7 @@ module RubyRisk
     end
 
     def start
-      infantery_per_player
+      set_infantery_per_player
     end
 
     def deal_infanteries
@@ -61,32 +61,28 @@ module RubyRisk
 
       player_index = 0
       loop do
-        byebug
         player = players[player_index]
 
         unless player.units_left?
+          break if players.size => player_index
+
           player_index += 1
           next
         end
 
-        break unless player.claim(unclaimed_territories)
+        player.claim(unclaimed_territories)
 
       end
-
-      Thread.new { sleep 1 }
     end
 
     private
 
-    attr_writer :players, :territories, :board
+    attr_writer :players, :board
     attr_accessor :first_player_index
-
-    def territories
-      @territories ||= territories
-    end
 
     def infantery_per_player
       @infantery_per_player ||= INFANTERIES_PER_PLAYER_MAP[players.size]
     end
+    alias set_infantery_per_player infantery_per_player
   end
 end

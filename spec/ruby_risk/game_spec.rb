@@ -6,7 +6,7 @@ RSpec.describe RubyRisk::Game do
   end
 
   let(:player_two) do
-    { name: 'Yann', color: RubyRisk::Player::COLORS[1] }
+    { name: 'Kevin', color: RubyRisk::Player::COLORS[1] }
   end
 
   let(:player_three) do

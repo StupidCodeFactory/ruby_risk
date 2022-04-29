@@ -20,8 +20,7 @@ module  RubyRisk
     def claim(unclaimed_territories)
       return false unless units_left?
 
-      infantery = self.infanteries.pop
-      pp [name, infanteries]
+      infantery = infanteries.pop
 
       territory = territory_selector.call(unclaimed_territories)
       [infantery, territory]
