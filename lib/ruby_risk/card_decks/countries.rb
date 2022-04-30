@@ -1,6 +1,6 @@
 require 'ruby_risk/card_decks/cards/country_card'
 require 'ruby_risk/card_decks/cards/wild_card'
-byebug
+
 module RubyRisk
   class CardDeck
     class Countries < CardDeck

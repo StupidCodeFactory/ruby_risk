@@ -3,10 +3,9 @@ require 'ruby_risk/territory'
 
 module RubyRisk
   class Board
-    DEFAULT_TERRITORIES_COUNT = 42
     attr_reader :continents
 
-    def initialize(territories_count: DEFAULT_TERRITORIES_COUNT, continents: Continent.all)
+    def initialize(continents: Continent.all)
       self.continents = continents
     end
 

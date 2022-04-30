@@ -73,7 +73,6 @@ RSpec.describe RubyRisk::Game do
       player = game.players.next_player
 
       player.start_turn
-
     end
   end
 end

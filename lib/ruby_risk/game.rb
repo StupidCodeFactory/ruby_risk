@@ -1,6 +1,5 @@
 require 'byebug'
 require 'ruby_risk/army'
-require 'ruby_risk/dice_rolls/outcomes/claim_initial_territory'
 require 'ruby_risk/board'
 require 'ruby_risk/players'
 require 'ruby_risk/card_deck'
@@ -69,6 +68,5 @@ module RubyRisk
     def board
       @board ||= Board.new
     end
-
   end
 end

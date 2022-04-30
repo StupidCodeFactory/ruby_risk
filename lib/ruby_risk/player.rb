@@ -18,6 +18,7 @@ module  RubyRisk
     def <=>(other)
       id <=> other.id
     end
+
     def claim(territory)
       return unless units_left?
 
