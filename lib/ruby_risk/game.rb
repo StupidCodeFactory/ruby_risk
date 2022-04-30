@@ -4,11 +4,11 @@ require 'ruby_risk/army/infantry'
 require 'ruby_risk/dice_rolls/outcomes/claim_initial_territory'
 require 'ruby_risk/board'
 require 'ruby_risk/territory'
+require 'ruby_risk/players'
 
 module RubyRisk
   class Game
     MAX_AMOUNT_OF_PAYERS = 6
-    attr_reader :players, :board
 
     INFANTERIES_PER_PLAYER_MAP = {
       2 => 11,
@@ -18,12 +18,6 @@ module RubyRisk
       6 => 20
     }.freeze
 
-    def initialize(board: Board.new)
-      self.players            = []
-      self.first_player_index = -1
-      self.board              = board
-    end
-
     def add_player(attributes)
       if (players.size + 1) > MAX_AMOUNT_OF_PAYERS
         raise ArgumentError, 'You have reached the maximum amount of players.'
@@ -32,18 +26,12 @@ module RubyRisk
       players << Player.new(**attributes)
     end
 
-    def roll_dice(player_outcome)
-      first_player = players[rand(players.size - 1)]
+    def players
+      @players ||= Players.new([])
+    end
 
-      loop do
-        break if players[0] == first_player
-
-        players.rotate!
-      end
-
-      player_outcome.player = players[first_player_index]
-
-      player_outcome
+    def unclaimed_territories
+      @unclaimed_territories ||= Continent.all.flat_map(&:territories)
     end
 
     def start
@@ -51,38 +39,29 @@ module RubyRisk
     end
 
     def deal_infanteries
-      players.each do |player|
-        infantery_per_player.times { player.infanteries << Infantry.new }
-      end
+      players.each { |player| infantery_per_player.times { player.infanteries << Infantry.new } }
     end
 
-    def claims_territories
-      unclaimed_territories = board.territories.dup
+    def claim(territory, player)
+      return false if player.units_left?
 
-      player_index = 0
-      loop do
-        player = players[player_index]
-
-        unless player.units_left?
-          break if players.size => player_index
-
-          player_index += 1
-          next
-        end
-
-        player.claim(unclaimed_territories)
-
-      end
+      unclaimed_territories.delete(territory)
+      player.claim(territory)
     end
 
     private
 
-    attr_writer :players, :board
-    attr_accessor :first_player_index
+    def territories
+      @territories ||= territories
+    end
 
     def infantery_per_player
       @infantery_per_player ||= INFANTERIES_PER_PLAYER_MAP[players.size]
     end
     alias set_infantery_per_player infantery_per_player
+
+    def board
+      @board ||= Board.new
+    end
   end
 end
