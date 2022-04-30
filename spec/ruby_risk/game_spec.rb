@@ -59,10 +59,21 @@ RSpec.describe RubyRisk::Game do
       game.deal_infanteries
       game.players.each { |player| expect(player.infanteries.size).to eq(20) }
 
-      player = game.players.first_player
-      while territory = game.unclaimed_territories.sample
+      while (territory = game.unclaimed_territories.sample)
+        player = game.players.next_player
         game.claim(territory, player)
+        game.players.next_player
       end
+      game.players.reset_turns!
+
+      expect(game.countries_card_deck.cards.size).to eq(44)
+      expect(game.missions_card_deck.cards.size).to eq(14)
+      expect(game.missions_card_deck.cards.first.mission).to eq("Destroy all green troops")
+
+      player = game.players.next_player
+
+      player.start_turn
+
     end
   end
 end

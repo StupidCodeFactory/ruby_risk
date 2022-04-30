@@ -1,10 +1,9 @@
-require 'ruby_risk/army/artillery'
-require 'ruby_risk/army/cavalry'
-require 'ruby_risk/army/infantry'
+require 'byebug'
+require 'ruby_risk/army'
 require 'ruby_risk/dice_rolls/outcomes/claim_initial_territory'
 require 'ruby_risk/board'
-require 'ruby_risk/territory'
 require 'ruby_risk/players'
+require 'ruby_risk/card_deck'
 
 module RubyRisk
   class Game
@@ -39,16 +38,23 @@ module RubyRisk
     end
 
     def deal_infanteries
-      players.each { |player| infantery_per_player.times { player.infanteries << Infantry.new } }
+      players.each { |player| infantery_per_player.times { player.infanteries << Infantry.new(player) } }
     end
 
     def claim(territory, player)
-      return false if player.units_left?
+      return false unless player.units_left?
 
       unclaimed_territories.delete(territory)
       player.claim(territory)
     end
 
+    def countries_card_deck
+      @countries_card_deck ||= CardDeck::Countries.new
+    end
+
+    def missions_card_deck
+      @missions_card_deck ||= CardDeck::Missions.new
+    end
     private
 
     def territories
@@ -63,5 +69,6 @@ module RubyRisk
     def board
       @board ||= Board.new
     end
+
   end
 end

@@ -9,15 +9,26 @@ module RubyRisk
 
     def initialize(players)
       self.players = players
+      first_player
+      reset_turns!
     end
 
     def first_player
-      @first_player ||= players[rand(players.size - 1)].tap do |player|
-        players.rotate! until players.first == player
-      end
+      @first_player ||= players[rand(players.size - 1)]
+    end
+
+    def next_player
+      player = players.first
+      players.rotate!
+      player
+    end
+
+    def reset_turns!
+      players.rotate! until players.first == first_player
     end
 
     private
+
     attr_accessor :players
   end
 end

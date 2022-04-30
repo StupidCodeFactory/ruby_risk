@@ -1,0 +1,17 @@
+en:
+  missions:
+    destroy_green: "Destroy all green troops"
+    destroy_red: "Destroy all red troops"
+    destroy_blue: "Destroy all blue troops"
+    destroy_black: "Destroy all black troops"
+    destroy_yellow: "Destroy all yellow troops"
+    destroy_pink: "Destroy all pink troops"
+    24_countries: "Occupy 24 territories of your choice"
+    conquer_18: "Conquer 18 territories of your choice and occupy each with at least 2 armies"
+    asia_and_south_america: "Conquer the continents of Asia and South America"
+    asia_and_africa: "Conquer the continents of Asia and Africa"
+    north_america_and_africa: "Conquer the continents of North America and Africa"
+    north_america_and_australia: "Conquer the continents of North America and Australia"
+    europe_and_south_america: "Conquer the continents of Europe and South America plus a third continent of your choice"
+    europe_and_australia: "Conquer the continents of Europe and Australia plus a third continent of your choice"
+    alternate_mission: "If you are %{colour}, then occupy 24 territories of your choice"

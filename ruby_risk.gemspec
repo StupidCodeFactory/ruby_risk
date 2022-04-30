@@ -29,6 +29,8 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'i18n', '~> 1.10'
+
   spec.add_development_dependency 'bundler', '~> 2.x'
   spec.add_development_dependency 'byebug', '~> 9.1'
   spec.add_development_dependency 'rake', '~> 10.0'
